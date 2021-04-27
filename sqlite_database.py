@@ -15,7 +15,7 @@ def update_Store(conn, data):
     sql = ''' UPDATE Store
               SET current price = ? ,
                   discount = ? ,
-              WHERE id = ?'''
+              WHERE storeID = ?'''
     cur = conn.cursor()
     cur.execute(sql, data)
     conn.commit()
