@@ -56,8 +56,6 @@ def getGames(conn):
     c.execute("SELECT * FROM Steam_games")
     return c.fetchall()
 
-
-
 def getBookmark(conn,id):
     cur = conn.cursor()
     sql = "SELECT appID FROM Bookmark WHERE userID = ?"
@@ -69,7 +67,7 @@ def getGameInfo(conn,id):
     sql = "SELECT * FROM Steam_games WHERE appID = ?"
     cur.execute(sql, id)
     return cur.fetchone()
-    
+
 def getStoreInfo(conn,storeID):
     sql = "SELECT * FROM Store_price WHERE storeID = ?"
     cur = conn.cursor()
