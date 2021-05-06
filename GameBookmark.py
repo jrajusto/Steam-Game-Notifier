@@ -3,7 +3,7 @@ from Notification import Notification
 class GameBookmark:
 
     def __init__(self):
-        self.bookmark = list(None)
+        self.bookmark = list()
         self.notification = Notification()
 
     def getList(self):
@@ -17,6 +17,5 @@ class GameBookmark:
     def getNotification(self):
         return self.notification.getNo()
 
-    def addGame(self,idNo):
-        #edit later
-        return True
+    def addGame(self,game):
+        self.bookmark.append(game)

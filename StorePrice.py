@@ -1,6 +1,6 @@
 class StorePrice:
 
-    def __init__(self, sname, sid, ds,np,cp):
+    def __init__(self, sid,sname, np,cp,ds):
         self.name = sname
         self.storeid = sid
         self.ds = ds

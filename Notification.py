@@ -2,7 +2,7 @@ class Notification:
     
     def __init__(self):
         self.number = 0
-        self.notifList = list(None)
+        self.notifList = list()
         self.seenNotification = False
 
     def getNo(self):

@@ -4,8 +4,7 @@ import json
 
 dealAPI = '44587204c43f4187a3b2b01f590949494717aa14'
 steamKey = 'A6434537190388EB7A022C0C6780946B'
-steamAPI = 'http://api.steampowered.com/<interface name>/<method name>/v<version>/?key=<' + steamKey + '>&format=<json>'
-response = requests.get('https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=A6434537190388EB7A022C0C6780946B')
+response = requests.get('https://api.steampowered.com/ISteamApps/GetAppList/v2/?key='+steamKey)
 key = response.json()
 site = "https://api.isthereanydeal.com/v01/game/prices/?key="+dealAPI+"&plains="
 

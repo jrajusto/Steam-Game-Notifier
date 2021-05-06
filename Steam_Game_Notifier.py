@@ -6,6 +6,14 @@ from User import User
 from GameBookmark import GameBookmark
 from Notification import Notification
 import sqlite3
+import sqlite_database
+
+
+application = Application()
+application.initUsers()
+application.initBookmark()
+application.initGames()
+
 
 
 

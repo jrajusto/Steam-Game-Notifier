@@ -47,7 +47,7 @@ for i in temp:
                 counter3 = counter3 + 1
             counter4 = counter4 + 1
         counter4 = 0 
-        c.executemany("INSERT INTO Store VALUES (?,?,?,?,?)",tempList1)    
+        c.executemany("INSERT INTO Store_price_price VALUES (?,?,?,?,?)",tempList1)    
         c.executemany("INSERT INTO game_store VALUES (?,?)",tempList2)    
         conn.commit()
         tempList1 = [] 
