@@ -14,5 +14,3 @@ class Game:
 
     def getStore(self):
         return self.store
-
-    

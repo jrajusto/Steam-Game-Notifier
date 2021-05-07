@@ -10,9 +10,16 @@ import sqlite_database
 
 
 application = Application()
+
 application.initUsers()
 application.initBookmark()
+application.login()
+application.update()
+'''
 application.initGames()
+'''
+
+
 
 
 

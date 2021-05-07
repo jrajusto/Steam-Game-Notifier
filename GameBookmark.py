@@ -19,3 +19,4 @@ class GameBookmark:
 
     def addGame(self,game):
         self.bookmark.append(game)
+            

@@ -11,19 +11,23 @@ class Application:
     def __init__(self):
         self.gameList = list()
         self.userList = list()
+        self.user = User(None,None,None)
 
     def getUsers(self):
         return self.userList
 
     def login(self):
+        conn = sqlite3.connect('Steam games.db')
+        
         userName = input("Username: ")
         password = input("Password: ")
-        found = False
-        while found != True:
-            for i in self.userList:
-                if i.getName == userName and i.getPassword == password:
-                    found = True
-        return found
+        userID  = sqlite_database.findUserID(conn,userName,password)
+        
+        if userID != None:
+            #print(self.userList[userID[0]])
+            self.user = self.userList[userID[0]]
+            print(self.user)
+        
 
     def addUser(self,userInfo):
         user = User(userInfo[0],userInfo[1],userInfo[2])
@@ -199,7 +203,6 @@ class Application:
             gameInfo = sqlite_database.getGameInfo(conn,i)
             game = Game(gameInfo[0],gameInfo[1],gameInfo[2],storeList)
             self.addGame(game)
-
 
     def updateGames(self):
         #update existing games

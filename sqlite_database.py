@@ -74,3 +74,11 @@ def getStoreInfo(conn,storeID):
     cur.execute(sql, storeID)
     return cur.fetchone()
 
+def findUserID(conn, username,password):
+    sql = "SELECT userID FROM Users WHERE userName = ? AND password = ?"
+    cur = conn.cursor()
+    cur.execute(sql, (username,password))
+    return cur.fetchone()
+    
+
+
