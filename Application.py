@@ -26,7 +26,7 @@ class Application:
         if userID != None:
             #print(self.userList[userID[0]])
             self.user = self.userList[userID[0]]
-            print(self.user)
+            #print(self.user)
         
 
     def addUser(self,userInfo):
@@ -71,6 +71,7 @@ class Application:
             for j in storeIDlist:
                 
                 storeInfo = sqlite_database.getStoreInfo(conn,j)
+                #print (storeInfo)
                 storePrice = StorePrice(storeInfo[0],storeInfo[1],storeInfo[2],storeInfo[3],storeInfo[4])
                 storeList.append(storePrice)
             game = Game(i[0],i[1],i[2],storeList)
@@ -95,9 +96,7 @@ class Application:
             if plains != None:
                 c.execute("SELECT * FROM Steam_games WHERE appID = ?",(i['appid'],))
                 existance = c.fetchall()
-                print(len(existance))
                 if len(existance) == 0:
-                    newGame.append(i['appid'])
                     temp = (i['appid'],i['name'],plains)
                     tempList.append(temp)
             
@@ -113,16 +112,19 @@ class Application:
             plains = i[2]
             site2 = site2 + plains +"%2C"
             gameList.append(i)
-            if counter == 150 or counter2 == max:
+            if counter == 115 or counter2 == max:
                 counter = 0
                 response = requests.get(site2+"&region=us&country=US")
+                #print(site2)
                 site2 = site
                 key = response.json()
-                for j in gameList:
-                    shopList = key['data'][j[2]].get("list")
-                    if len(shopList)!=0:
-                        finalList.append(j)
-                        print(finalList)
+                if key != None:
+                    for j in gameList:
+                        shopList = key['data'][j[2]].get("list")
+                        if len(shopList)!=0:
+                            newGame.append(j[0])
+                            finalList.append(j)
+                            #print(finalList)
                 
                 gameList = []
 
@@ -130,6 +132,7 @@ class Application:
         c.executemany("INSERT INTO Steam_games VALUES (?,?,?)",finalList)
         conn.commit()
         conn.close()
+        return newGame
 
 
         
@@ -152,7 +155,7 @@ class Application:
         counter4 = 0
         max = len(newGame)
         for i in newGame:
-            info = sqlite_database.getGameInfo(conn,i)
+            info = sqlite_database.getGameInfo2(conn,str(i))
             counter2 = counter2 + 1
             counter = counter + 1
             plains = info[2]
@@ -177,7 +180,7 @@ class Application:
                         counter3 = counter3 + 1
                     counter4 = counter4 + 1
                 counter4 = 0 
-                c.executemany("INSERT INTO Store_price_price VALUES (?,?,?,?,?)",tempList1)    
+                c.executemany("INSERT INTO Store_price VALUES (?,?,?,?,?)",tempList1)    
                 c.executemany("INSERT INTO game_store VALUES (?,?)",tempList2)    
                 conn.commit()
                 tempList1 = [] 
@@ -200,12 +203,13 @@ class Application:
                 storePrice = StorePrice(storeInfo[0],storeInfo[1],storeInfo[2],storeInfo[3],storeInfo[4])
                 storeList.append(storePrice)
             
-            gameInfo = sqlite_database.getGameInfo(conn,i)
+            gameInfo = sqlite_database.getGameInfo2(conn,str(i))
             game = Game(gameInfo[0],gameInfo[1],gameInfo[2],storeList)
             self.addGame(game)
 
     def updateGames(self):
         #update existing games
+        
         conn = sqlite3.connect('Steam Games.db')
         c = conn.cursor()
 
@@ -245,13 +249,20 @@ class Application:
                         index = 0
                         found = False
                         while found != True:
-                            c.execute("SELECT * FROM game_store WHERE storeID = ? AND name = ?", (storeID[index]),k['shop']['name'])
-                            if len(c.fetchall()) == 1:
+                            print(str(index) + ' ' + k['shop']['name'])
+                            thing = str(storeID[index][0])
+                            
+
+                            c.execute("SELECT * FROM Store_price WHERE storeID = ? AND name = ?",(thing,k['shop']['name']))
+                            if len(c.fetchall()) != 0:
                                 found = True
+                                print('found')
+                            else:
+                                index = index + 1
                         store = sqlite_database.getStoreInfo(conn, storeID[index])
                         if store[4] != k['price_cut']:
                             tempTuple1 = (k['price_new'],k['price_cut'],store[0])
-                        tempList1.append(tempTuple1)
+                            tempList1.append(tempTuple1)
                     counter4 = counter4 + 1
                 counter4 = 0 
                 sqlite_database.update_Store(conn,tempList1)  
@@ -260,12 +271,20 @@ class Application:
                 plainsList = []
                 idList = []
 
-        print('done')
+        #print('done')
 
         conn.commit()
         conn.close()
 
-
+    def update(self):
+        print('updateNewGames')
+        newGames = self.updateNewGames()
+        print('updateNewGamePrices')
+        self.updateNewGamePrices(newGames)
+        print('addToClass')
+        self.addNewGamesToClass(newGames)
+        print('updateGames')
+        self.updateGames()
 
         
  

@@ -14,12 +14,14 @@ def create_connection(db_file):
 
 def update_Store(conn, data):
     
-    sql = ''' UPDATE Store
-              SET current price = ? ,
-                  discount = ? ,
+    sql = ''' UPDATE Store_price
+              SET current_price = ? ,
+                  discount = ? 
               WHERE storeID = ?'''
+    print(sql)
     cur = conn.cursor()
-    cur.execute(sql, data)
+    print(data)
+    cur.executemany(sql, data)
     conn.commit()
 
 def getStoreIDList(conn, appID):
@@ -66,6 +68,12 @@ def getGameInfo(conn,id):
     cur = conn.cursor()
     sql = "SELECT * FROM Steam_games WHERE appID = ?"
     cur.execute(sql, id)
+    return cur.fetchone()
+
+def getGameInfo2(conn,id):
+    cur = conn.cursor()
+    sql = "SELECT * FROM Steam_games WHERE appID = ?"
+    cur.execute(sql, (id,))
     return cur.fetchone()
 
 def getStoreInfo(conn,storeID):
