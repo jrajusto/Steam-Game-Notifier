@@ -13,6 +13,7 @@ class Notification:
             print(x)
         self.seenNotification = True
 
-    def addNotif(self, newNot):
-        self.notifList.append()
+    def addNotif(self,game,discount):
+        self.notifList.append("The game "+game+" now has a " +discount+"%\ discount on Steam!" )
+        self.number = self.number + 1
         self.seenNotification = False

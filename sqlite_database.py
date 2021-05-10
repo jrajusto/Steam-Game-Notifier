@@ -88,5 +88,15 @@ def findUserID(conn, username,password):
     cur.execute(sql, (username,password))
     return cur.fetchone()
     
+def getStoreDiscount(conn,storeID):
+    sql = "SELECT discount FROM Store_price WHERE storeID = ?"
+    cur = conn.cursor()
+    cur.execute(sql, (storeID,))
+    return cur.fetchone()
 
+def getStoreCurPrice(conn,storeID):
+    sql = "SELECT current_price FROM Store_price WHERE storeID = ?"
+    cur = conn.cursor()
+    cur.execute(sql, (storeID,))
+    return cur.fetchone()
 

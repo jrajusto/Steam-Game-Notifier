@@ -15,6 +15,12 @@ class StorePrice:
 
     def getCurrentPrice(self):
         return self.currentPrice
+    
+    def getStoreID(self):
+        return self.storeid
+
+    def getDiscount(self):
+        return self.discount
 
     def setName(self):
         self.name = input("Enter name of store: ") #"placeholder for UI and database"
