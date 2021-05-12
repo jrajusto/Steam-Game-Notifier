@@ -16,17 +16,18 @@ class Application:
     def getUsers(self):
         return self.userList
 
-    def login(self):
+    def login(self,userName,password):
         conn = sqlite3.connect('Steam games.db')
         
-        userName = input("Username: ")
-        password = input("Password: ")
         userID  = sqlite_database.findUserID(conn,userName,password)
         
         if userID != None:
             #print(self.userList[userID[0]])
             self.user = self.userList[userID[0]]
             #print(self.user)
+            return True
+        else:
+            return False
         
 
     def addUser(self,userInfo):
