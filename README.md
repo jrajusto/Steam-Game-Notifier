@@ -2,7 +2,9 @@
 Project for CPE106l
 
 # Description
-This program allows the user to browse games and see which games have discounts on certain stores. The user can store their wanted games in a bookmark list and be notified when discounts are available. The application keeps track of the games and prices through a database that is updated by accessing the site's API.
+This program allows the user to browse games and see which games have discounts on certain stores. The user can store their wanted games in a bookmark list and be notified when discounts are available. The application keeps track of the games and prices through a database that is updated by accessing the Steam and IsThereAnyDeal's API.
+
+
 
 # How to Use
 To use this application, you must first have Kivy installed.
