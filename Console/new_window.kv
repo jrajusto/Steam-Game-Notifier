@@ -1,0 +1,440 @@
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 14
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
+
+
+WindowManager:
+    LogIn:
+    MainScreen:
+
+<FlatButton@ButtonBehavior+Label>:
+    font_size: 20
+
+<LogIn>:
+    name: "first"
+    id: ogparent_widget
+    orientation: "vertical"
+    spacing: 10
+    space_x: self.size[0]/3
+    canvas.before:
+        Color:
+            rgba: (80/255, 106/255, 210/255, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        canvas.before:
+            Color:
+                rgba: (56/255, 72/255, 137/255, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label: 
+            text: "Login Screen"
+            bold: True
+            size_hint_x: .9
+
+        FlatButton:
+            text: "X"
+            bold: True
+            size_hint_x: .1
+    BoxLayout:
+        orientation: "vertical"
+        padding: ogparent_widget.space_x, 10
+        spacing: 50
+
+        Label:
+            id: spare
+            text: "Login Your Account"
+            size_hint_y: None
+            height: 40
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y: None
+            height: 75
+
+            TextInput:
+                id: user_field
+                hint_text: "Username: "
+                multiline: False
+                #focus: True
+                on_text_validate: pwd_field.focus = True
+                write_tab: True
+
+            TextInput:
+                id: pass_field
+                hint_text: "Password: "
+                multiline: False
+                password: True
+                on_text_validate: root.validate_user()
+
+        Label:
+            id: login_prompt
+            text: ''
+            markup: True
+            size_hint_y: None
+            height: 20
+
+        Button:
+            text: "Sign In"
+            size_hint_y: None
+            height: 40 
+            background_color: (56/255, 72/255, 137/255, 1)
+            background_normal: ''
+            on_release: if root.validate_user(): app.root.current = "second"
+
+        Label:
+            id: spare2
+    BoxLayout:
+        size_hint_y: None
+        height: 25
+        canvas.before:
+            Color:
+                rgba: (56/255, 72/255, 137/255, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    
+<MainScreen>:
+    name: "second"
+    id:ogparent_widget
+    orientation: 'vertical'
+
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        id: header
+        size_hint_y: None
+        height: 40 
+
+        canvas.before:
+            Color:
+                rgba: (.06, .45, .45, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Label:
+            text: 'Steam-Game-Sale-Notifier'
+            halign: 'left'
+            size_hint_x: .9
+            bold: True
+        
+        FlatButton:
+            id: loggedin_user
+            text: 'Jdoe'
+            size_hint: (.1,1)
+            #height: 30
+            bold: True
+            on_release: file_dropdown.open(self)
+            
+            Widget:
+                on_parent: file_dropdown.dismiss()
+
+                DropDown:
+                    id: file_dropdown
+                    Button:
+                        id: close
+                        text: 'logout'
+                        size_hint_y: None
+                        height: 30
+                        on_release: 
+
+    BoxLayout:
+        id: tabs
+        size_hint_y: None
+        height: 40
+
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        ToggleButton:
+            id: games_tab
+            text: 'Marketplace'
+            background_normal: ''
+            background_color: (.06, .65, .65, 1)
+            state: 'down'
+
+        ToggleButton:
+            id: bookmarks_tab
+            text: 'Bookmarks'
+            background_normal: ''
+            background_color: (.06, .65, .65, 1)
+
+    BoxLayout:
+        id: marketplace_widget
+        padding: 3
+        BoxLayout:
+            id: gametab_details
+            orientation: 'vertical'
+            size_hint_x: .8
+            BoxLayout:
+                id: gamename
+                size_hint_y: None
+                height: 40
+                canvas.before:
+                    Color:
+                        rgba: (.06, .45, .45, 1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                FlatButton:
+                    text: 'Game Name'
+                    size_hint_x: .4
+                FlatButton:
+                    text: 'Original Price'
+                    size_hint_x: .2
+                FlatButton:
+                    text: '% Discount'
+                    size_hint_x: .1
+                FlatButton:
+                    text: 'Discounted Price'
+                    size_hint_x: .2
+                FlatButton:
+                    text: ''
+                    size_hint_x: .1
+
+            ScrollView:
+                canvas.before:
+                    Color:
+                        rgba: (.06, .45, .45, 1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                do_scroll_x: False
+                do_scroll_y: True
+                BoxLayout:
+                    BoxLayout:
+                        id: game_entry
+                        orientation: 'vertical'
+                        padding: 0, 3
+                        spacing: 3
+                        BoxLayout:
+                            id: game_entry1
+                            orientation: 'horizontal'
+                            # ScrollView:
+                            #     canvas.before:
+                            #         Color:
+                            #             rgba: (.06, .45, .45, 1)
+                            #         Rectangle:
+                            #             size: self.size
+                            #             pos: self.pos
+                            #     do_scroll_x: False
+                            #     do_scroll_y: True
+
+                            BoxLayout:
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 10, 10
+                            #     text:
+                            #         'really some amazing text\n' * 100
+                                BackgroundLabel:
+                                    text: 'Game Name'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .4
+                                    size_hint_x: .4
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Original Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: '% Discount'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .1
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Discounted Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                Button:
+                                    text: 'Bookmark \ngame'
+                                    background_normal: ''
+                                    background_color: (49/255, 200/255, 200/255, 1)
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50
+                        BoxLayout:
+                            id: game_entry1
+                            orientation: 'horizontal'
+                            # ScrollView:
+                            #     canvas.before:
+                            #         Color:
+                            #             rgba: (.06, .45, .45, 1)
+                            #         Rectangle:
+                            #             size: self.size
+                            #             pos: self.pos
+                            #     do_scroll_x: False
+                            #     do_scroll_y: True
+
+                            BoxLayout:
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 10, 10
+                            #     text:
+                            #         'really some amazing text\n' * 100
+                                BackgroundLabel:
+                                    text: 'Game Name'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .4
+                                    size_hint_x: .4
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Original Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: '% Discount'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .1
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Discounted Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                Button:
+                                    text: 'Bookmark \ngame'
+                                    background_normal: ''
+                                    background_color: (49/255, 200/255, 200/255, 1)
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50
+                        BoxLayout:
+                            id: game_entry1
+                            orientation: 'horizontal'
+                            # ScrollView:
+                            #     canvas.before:
+                            #         Color:
+                            #             rgba: (.06, .45, .45, 1)
+                            #         Rectangle:
+                            #             size: self.size
+                            #             pos: self.pos
+                            #     do_scroll_x: False
+                            #     do_scroll_y: True
+
+                            BoxLayout:
+                            # Label:
+                            #     size_hint_y: None
+                            #     height: self.texture_size[1]
+                            #     text_size: self.width, None
+                            #     padding: 10, 10
+                            #     text:
+                            #         'really some amazing text\n' * 100
+                                BackgroundLabel:
+                                    text: 'Game Name'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .4
+                                    size_hint_x: .4
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Original Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: '% Discount'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .1
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50
+                                BackgroundLabel:
+                                    text: 'Discounted Price'
+                                    background_normal: ''
+                                    background_color: (0/255, 154 /255, 154/255, 1)
+                                    pos_hint_x: .2
+                                    size_hint_x: .2
+                                    size_hint_y: None
+                                    height: 50
+                                Button:
+                                    text: 'Bookmark \ngame'
+                                    background_normal: ''
+                                    background_color: (49/255, 200/255, 200/255, 1)
+                                    size_hint_x: .1
+                                    size_hint_y: None
+                                    height: 50 
+                        BoxLayout:
+                        BoxLayout:
+                        BoxLayout:
+                        BoxLayout:
+                        BoxLayout:
+                        BoxLayout:
+                        BoxLayout:
+                                           
+
+
+    
+    BoxLayout:
+        id: footer
+        size_hint_y: None
+        height: 15 
+
+        canvas.before:
+            Color:
+                rgba: (.06, .45, .45, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        Label:
+            text: ''
+            bold: True
+            color: (1,1,1,1)
